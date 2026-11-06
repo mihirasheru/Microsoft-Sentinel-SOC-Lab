@@ -4,8 +4,6 @@ A Log Analytics Workspace collects and stores logs from Azure resources so they 
 
 1. Search **Log Analytics workspaces** in the Azure Portal and click **Create**.
 
-   ![4](../../screenshots/4.png)
-
 2. Enter the details:
 
    - **Subscription:** Azure for Students
@@ -15,8 +13,8 @@ A Log Analytics Workspace collects and stores logs from Azure resources so they 
 
    Click **Review + Create**, then click **Create**.
 
-   ![5](../../screenshots/5.png)
+   ![4](../../screenshots/4.png)
 
 3. The Log Analytics Workspace is successfully created.
 
-   ![6](../../screenshots/6.png)
+   ![5](../../screenshots/5.png)
