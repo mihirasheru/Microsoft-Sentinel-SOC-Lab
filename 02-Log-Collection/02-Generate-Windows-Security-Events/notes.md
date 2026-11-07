@@ -8,7 +8,7 @@
 
 4. You should now be connected to the VM as `azureuser`.
 
-   ![Screenshot 13](../../screenshots/13.png)
+   ![Screenshot 14](../../screenshots/14.png)
 
 5. Open **Command Prompt as Administrator**. Create four SOC users and one SOC admin user using:
 
@@ -46,7 +46,7 @@
    net localgroup Administrators
    ```
 
-   ![Screenshot 14](../../screenshots/14.png)
+   ![Screenshot 15](../../screenshots/15.png)
 
 10. Open **Event Viewer** from the Windows search bar.
 
@@ -56,7 +56,7 @@
 
 13. Right-click the event and select **Event Properties** to view its details.
 
-    ![Screenshot 15](../../screenshots/15.png)
+    ![Screenshot 16](../../screenshots/16.png)
 
 14. Open Command Prompt as Administrator. Add the SOC users to the Remote Desktop Users group:
 
@@ -74,7 +74,7 @@
 
     This allows the accounts to connect to the Windows VM through Remote Desktop.
 
-    ![Screenshot 16](../../screenshots/16.png)
+    ![Screenshot 17](../../screenshots/17.png)
 
 16. Close the current Remote Desktop session.
 
@@ -85,7 +85,7 @@
     - **Username:** `soc_user01`
     - **Password:** The password created for `soc_user01`
 
-    ![Screenshot 17](../../screenshots/17.png)
+    ![Screenshot 18](../../screenshots/18.png)
 
 19. After connecting, open **Microsoft Sentinel → law-soc-lab → Logs**.
 
@@ -100,7 +100,7 @@
 
     This displays 10 Windows Security events collected from the VM.
 
-    ![Screenshot 18](../../screenshots/18.png)
+    ![Screenshot 19](../../screenshots/19.png)
 
 22. To verify the Event ID 4732 generated earlier, run:
 
@@ -112,7 +112,7 @@
 
     This displays recent events where a user was added to a local security-enabled group.
 
-    ![Screenshot 19](../../screenshots/19.png)
+    ![Screenshot 20](../../screenshots/20.png)
 
 23. To verify the successful login made using `soc_user01`, run:
 
@@ -124,6 +124,5 @@
 
     Event ID 4624 represents a successful logon.
 
-    ![Screenshot 20](../../screenshots/20.png)
+    ![Screenshot 21](../../screenshots/21.png)
 
-**Next screenshot:** `21.png`.
