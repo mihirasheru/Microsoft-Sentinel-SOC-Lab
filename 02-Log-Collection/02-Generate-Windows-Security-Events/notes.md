@@ -1,128 +1,103 @@
-# VI. Generate Windows Security Events and Verify That Sentinel Is Receiving Them
+# VI. Generate Windows security events and verify that Sentinel is 
+receiving them.
 
-1. Go to **Virtual Machines**.
+1. Go to Virtual Machines.
 
-2. Open `MyWindowsVM` → **Connect** → **RDP** → **Download RDP file**.
+2. Open MyWindowsVM → Connect → RDP → Download RDP file.
+   ![Screenshot 13](../../screenshots/13.png)
 
-3. Open the downloaded `.rdp` file on your PC and connect using the username and password created for the VM.
-
-4. You should now be connected to the VM as `azureuser`.
-
+3. Open the downloaded .rdp file on your PC and connect using the username and password you 
+created for the VM.
    ![Screenshot 14](../../screenshots/14.png)
 
-5. Open **Command Prompt as Administrator**. Create four SOC users and one SOC admin user using:
-
-   ```cmd
-   net user <username> "<password>" /add
-   ```
-
-6. Verify that the users were created:
-
-   ```cmd
-   net user
-   ```
-
-   To check an individual user:
-
-   ```cmd
-   net user soc_user01
-   ```
-
-7. View the available local groups:
-
-   ```cmd
-   net localgroup
-   ```
-
-8. Add `soc_admin01` to the Administrators group:
-
-   ```cmd
-   net localgroup Administrators soc_admin01 /add
-   ```
-
-9. Verify that `soc_admin01` was added successfully:
-
-   ```cmd
-   net localgroup Administrators
-   ```
-
+4. Then we get connected to azureuser remotely.
    ![Screenshot 15](../../screenshots/15.png)
 
-10. Open **Event Viewer** from the Windows search bar.
+(or)
 
-11. Go to **Windows Logs → Security**.
+- Install Windows App (if you dont want to download and use the RDP file to access the Windows 
+  VM)
+- If you face errors while connecting:  
+  Go to: Azure Portal → MyWindowsVM → Overview. Then Click Restart.
 
-12. Look for **Event ID 4732**. This event is generated when a member is added to a security-enabled local group.
+5. Open cmd, run as administrator.  
+   Enter the following commands, to create users and an admin. (We created 4 soc users and 1 soc 
+   admin user ).
 
-13. Right-click the event and select **Event Properties** to view its details.
+   Syntax: `net user <username> "<password>" /add`
+   ![Screenshot 16](../../screenshots/16.png)
 
-    ![Screenshot 16](../../screenshots/16.png)
+6. Check that the users were created using net user command.
+   ![Screenshot 18](../../screenshots/18.png)
+   - net user allows you to check the existing user.
+   - You can also check an individual user. Ex: net user soc_user01.
+   ![Screenshot 19](../../screenshots/19.png)
 
-14. Open Command Prompt as Administrator. Add the SOC users to the Remote Desktop Users group:
+7. net localgroup command allows you to see all the local groups available on the Windows VM.
+   ![Screenshot 20](../../screenshots/20.png)
 
-    ```cmd
-    net localgroup "Remote Desktop Users" soc_user01 /add
-    ```
+8. Add soc_admin01 to the Administrators group using the command: net localgroup 
+   Administrators soc_admin01 /add. This gives soc_admin01 local administrator privileges.
+   ![Screenshot 21](../../screenshots/21.png)
 
-    Repeat this for all users, including `soc_admin01`.
+9. Verify that soc_admin01 was added successfully using the command: net localgroup 
+   Administrators. The soc_admin01 account should now appear in the list.
 
-15. Verify that the users were added successfully:
+10. Open Event Viewer by searching for it in the Windows search bar.
 
-    ```cmd
-    net localgroup "Remote Desktop Users"
-    ```
+11. Go to Windows Logs → Security.
 
-    This allows the accounts to connect to the Windows VM through Remote Desktop.
+12. Look for Event ID 4732. This event is generated when a member is added to a security-enabled 
+    local group.
 
-    ![Screenshot 17](../../screenshots/17.png)
+13. Right-click the 4732 event and select Event Properties to view the details of the event.
+
+14. Open Command Prompt as Administrator and add soc_user01 to the Remote Desktop Users 
+    group: `net localgroup "Remote Desktop Users" soc_user01 /add`. Add all the users similarly 
+    including soc_admin01.
+
+    This adds all the users to the Remote Desktop Users group, allowing the account to connect to the 
+    Windows VM through Remote Desktop.
+
+15. Verify that the users were added successfully: `net localgroup "Remote Desktop Users"`
 
 16. Close the current Remote Desktop session.
 
-17. Open Remote Desktop / Windows App again.
+17. Open Remote Desktop / Windows App
 
-18. Select **Use another account** and enter:
+18. When prompted for credentials, select Use another account and enter:  
+    Username: soc_user01  
+    Password: soc_user01
 
-    - **Username:** `soc_user01`
-    - **Password:** The password created for `soc_user01`
+19. After successfully connecting, open Microsoft Sentinel → law-soc-lab → Logs.
 
-    ![Screenshot 18](../../screenshots/18.png)
-
-19. After connecting, open **Microsoft Sentinel → law-soc-lab → Logs**.
-
-20. Switch from **Simple Mode** to **KQL Mode**.
+20. Switch from Simple Mode to KQL Mode.
 
 21. Run the following query to verify that Windows Security events are being received:
 
     ```kql
-    SecurityEvent
+    SecurityEvent 
     | take 10
     ```
 
-    This displays 10 Windows Security events collected from the VM.
-
-    ![Screenshot 19](../../screenshots/19.png)
+    This displays 10 Windows Security events collected from the VM
 
 22. To verify the Event ID 4732 generated earlier, run:
 
     ```kql
-    SecurityEvent
-    | where EventID == 4732
+    SecurityEvent 
+    | where EventID == 4732 
     | order by TimeGenerated desc
     ```
 
-    This displays recent events where a user was added to a local security-enabled group.
+    This displays the most recent events where a user was added to a local security-enabled group.
 
-    ![Screenshot 20](../../screenshots/20.png)
-
-23. To verify the successful login made using `soc_user01`, run:
+23. To verify the successful login made using soc_user01, run:
 
     ```kql
-    SecurityEvent
-    | where EventID == 4624
+    SecurityEvent 
+    | where EventID == 4624 
     | order by TimeGenerated desc
     ```
 
     Event ID 4624 represents a successful logon.
-
-    ![Screenshot 21](../../screenshots/21.png)
-
