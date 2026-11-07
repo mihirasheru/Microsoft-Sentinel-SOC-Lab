@@ -62,41 +62,42 @@
 
 14. Open Command Prompt as Administrator and add soc_user01 to the Remote Desktop Users group: `net localgroup "Remote Desktop Users" soc_user01 /add`. Add all the users similarly including soc_admin01.
 
-   ![Screenshot 24](../../screenshots/24.png)
-
+    ![Screenshot 24](../../screenshots/24.png)
 
     This adds all the users to the Remote Desktop Users group, allowing the account to connect to the Windows VM through Remote Desktop.
 
-16. Verify that the users were added successfully: `net localgroup "Remote Desktop Users"`
+15. Verify that the users were added successfully: `net localgroup "Remote Desktop Users"`
 
-   ![Screenshot 25](../../screenshots/25.png)
+    ![Screenshot 25](../../screenshots/25.png)
 
-17. Close the current Remote Desktop session.
+16. Close the current Remote Desktop session.
 
-18. Open Remote Desktop / Windows App
+17. Open Remote Desktop / Windows App
 
-19. When prompted for credentials, select Use another account and enter:
+18. When prompted for credentials, select Use another account and enter:
+
     Username: soc_user01
+
     Password: soc_user01
 
-   ![Screenshot 26](../../screenshots/26.png)
+    ![Screenshot 26](../../screenshots/26.png)
 
-20. After successfully connecting, open Microsoft Sentinel → law-soc-lab → Logs.
+19. After successfully connecting, open Microsoft Sentinel → law-soc-lab → Logs.
 
-21. Switch from Simple Mode to KQL Mode.
+20. Switch from Simple Mode to KQL Mode.
 
-22. Run the following query to verify that Windows Security events are being received:
+21. Run the following query to verify that Windows Security events are being received:
 
     ```kql
     SecurityEvent
     | take 10
     ```
 
-   ![Screenshot 27](../../screenshots/27.png)
+    ![Screenshot 27](../../screenshots/27.png)
 
     This displays 10 Windows Security events collected from the VM
 
-23. To verify the Event ID 4732 generated earlier, run:
+22. To verify the Event ID 4732 generated earlier, run:
 
     ```kql
     SecurityEvent
@@ -104,11 +105,11 @@
     | order by TimeGenerated desc
     ```
 
-   ![Screenshot 28](../../screenshots/28.png)
+    ![Screenshot 28](../../screenshots/28.png)
 
     This displays the most recent events where a user was added to a local security-enabled group.
 
-24. To verify the successful login made using soc_user01, run:
+23. To verify the successful login made using soc_user01, run:
 
     ```kql
     SecurityEvent
@@ -116,6 +117,6 @@
     | order by TimeGenerated desc
     ```
 
-   ![Screenshot 29](../../screenshots/29.png)
+    ![Screenshot 29](../../screenshots/29.png)
 
     Event ID 4624 represents a successful logon.
