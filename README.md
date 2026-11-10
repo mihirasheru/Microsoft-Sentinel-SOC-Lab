@@ -41,7 +41,7 @@ We also create custom detection rules to identify suspicious activities automati
 
 The complete workflow looks like this:
 
-![Microsoft Sentinel SOC Lab Architecture.png](./screenshots/Microsoft Sentinel SOC Lab Architecture.png)
+![Microsoft Sentinel SOC Lab Architecture](./screenshots/Microsoft%20Sentinel%20SOC%20Lab%20Architecture.png)
 
 In simple terms:
 
